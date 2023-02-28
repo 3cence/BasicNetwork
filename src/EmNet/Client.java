@@ -13,7 +13,7 @@ public class Client extends Thread implements Connection {
     private final String ip;
     private final int port;
     private final List<String> incomingPackets, outgoingPackets;
-    private int connectionEstablished = 0;
+    private volatile int connectionStatus = 0;
     private volatile boolean endFlag = false;
     public Client(String ip, int port) {
         this.ip = ip;
@@ -30,11 +30,11 @@ public class Client extends Thread implements Connection {
     public synchronized DefaultPacket nextPacket() {
         String packet = incomingPackets.get(0);
         incomingPackets.remove(0);
-        return new DefaultPacket(-1, packet);
+        return new DefaultPacket(this, packet);
     }
     public synchronized DefaultPacket peekNextPacket() {
         String packet = incomingPackets.get(0);
-        return new DefaultPacket(-1, packet);
+        return new DefaultPacket(this, packet);
     }
     @Override
     public synchronized DefaultPacket getNextPacket() {
@@ -44,13 +44,20 @@ public class Client extends Thread implements Connection {
     public synchronized boolean hasNextPacket() {
         return incomingPackets.size() > 0;
     }
-    public synchronized void sendPacket(String s) {
-        if (s.equals("keepalive"))
-            s = "keepalive\r";
-        outgoingPackets.add(s);
+    public synchronized void sendPacket(int type, String s) {
+        if (PacketType.isInternalCommand(type))
+            throw new RuntimeException("Tried to sent internal only");
+        outgoingPackets.add("[" + type + "]" + s);
+    }
+    private synchronized void sendInternalPacket(int type, String s) {
+        outgoingPackets.add("[" + type + "]" + s);
     }
     public synchronized void endConnection() {
-        endFlag = true;
+        if (connectionStatus != -1) {
+            sendInternalPacket(PacketType.TERMINATE, "");
+            flush();
+            connectionStatus = -1;
+        }
     }
 
     @Override
@@ -61,12 +68,8 @@ public class Client extends Thread implements Connection {
         return this;
     }
 
-    /**
-     * Will return 1 for connected, 0 for connecting, and -1 for connection failure
-     * @return Connection Status
-     */
-    public int connectionStatus() {
-        return connectionEstablished;
+    public int getConnectionStatus() {
+        return connectionStatus;
     }
 
     @Override
@@ -77,18 +80,33 @@ public class Client extends Thread implements Connection {
                 BufferedReader in = new BufferedReader(new InputStreamReader(server.getInputStream()));
                 long timeSentKeepalive = time();
                 long timeReceiveKeepalive = time();
-                connectionEstablished = 1;
-                while (true) {
+                while (connectionStatus != -1) {
+                    if (in.ready()) {
+                        if (DefaultPacket.deconstructRawPacket(in.readLine()).getType() == PacketType.INITIALIZE) {
+                            connectionStatus = 1;
+                            sendInternalPacket(PacketType.INITIALIZE, "");
+                            break;
+                        }
+                    }
+                    if (time() - timeReceiveKeepalive > 10000) {
+                        connectionStatus = -1;
+                        break;
+                    }
+                }
+                while (connectionStatus == 1) {
                     if (time() - timeReceiveKeepalive > 10000)
                         break;
                     if (time() - timeSentKeepalive > 5000) {
                         timeSentKeepalive = time();
-                        out.println("keepalive");
+                        sendInternalPacket(PacketType.KEEPALIVE, "");
                     }
                     if (in.ready()) {
                         String s = in.readLine();
-                        if (s.equals("keepalive")) {
+                        if (DefaultPacket.deconstructRawPacket(s).getType() == PacketType.KEEPALIVE) {
                             timeReceiveKeepalive = time();
+                        }
+                        else if (DefaultPacket.deconstructRawPacket(s).getType() == PacketType.TERMINATE) {
+                            connectionStatus = -1;
                         }
                         else
                             incomingPackets.add(s);
@@ -96,17 +114,22 @@ public class Client extends Thread implements Connection {
                     if (outgoingPackets.size() > 0) {
                         out.println(outgoingPackets.remove(0));
                     }
-                    if (endFlag)
-                        break;
                 }
             }
-        } catch (Exception ignored) {}
-        connectionEstablished = -1;
+        } catch (Exception ignored) {
+//            throw new RuntimeException(ignored);
+        }
+        connectionStatus = -1;
     }
     public static void main(String[] args) {
         try {
             Client client = new Client(args[0], Integer.parseInt(args[1]));
             BufferedReader scanner = new BufferedReader(new InputStreamReader(System.in));
+            int type;
+            if (args.length > 2)
+                type = Integer.parseInt(args[3]);
+            else
+                type = PacketType.NULLTYPE;
             client.start();
 
             while (true) {
@@ -118,7 +141,7 @@ public class Client extends Thread implements Connection {
                     String s = scanner.readLine();
                     if (s.equals("exit"))
                         break;
-                    client.sendPacket(s);
+                    client.sendPacket(type, s);
                 }
                 if (!client.isAlive())
                     break;

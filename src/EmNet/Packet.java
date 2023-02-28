@@ -5,22 +5,21 @@ package EmNet;
  */
 public interface Packet {
     /**
-     * Gets the ID of the connection that sent the packet.
+     * Gets the reference to the connection that sent the packet.
      * For use on Servers
-     * TODO: Change to give reference to object
      * @return Connection ID
      */
-    long getConnectionID();
+    Connection getConnection();
 
     /**
      * Returns the type of packet
-     * ex: request, information, response
+     * ex: request, response, information, nulltype
      * Note: Some types are used in the Client & Server implementations,
-     * so be careful while using the following:
+     * do not use the following:
      * keepalive, initialize, and terminate
      * @return The value in the Type Field
      */
-    String getType();
+    int getType();
 
     /**
      * Returns the data sent by the packet as a string

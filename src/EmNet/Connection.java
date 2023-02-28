@@ -24,10 +24,10 @@ public interface Connection {
     void flush();
 
     /**
-     * Returns an int, 1 = connected, 0 = connecting, -1 = error
+     * Returns an int, 1 = connected, 0 = connecting, -1 = not connected
      * @return status
      */
-    int connectionStatus();
+    int getConnectionStatus();
 
     /**
      * Returns whether there is a new packet waiting
@@ -39,7 +39,7 @@ public interface Connection {
      * Send packet data TODO:: WILL BE CHANGED
      * @param s data
      */
-    void sendPacket(String s);
+    void sendPacket(int type, String s);
 
     /**
      * End the connection thread cleanly

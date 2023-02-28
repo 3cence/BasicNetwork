@@ -39,15 +39,15 @@ public class Server extends Thread {
                 return null;
             String packet = incomingPacketData.get(0);
             incomingPacketData.remove(0);
-            return new DefaultPacket(connectionID, packet);
+            return new DefaultPacket(this, packet);
         }
         public synchronized DefaultPacket peekNextPacket() {
             if (!hasNextPacket())
                 return null;
-            return new DefaultPacket(connectionID, incomingPacketData.get(0));
+            return new DefaultPacket(this, incomingPacketData.get(0));
         }
         @Override
-        public synchronized int connectionStatus() {
+        public synchronized int getConnectionStatus() {
             return connectionStatus;
         }
         public synchronized boolean hasNextPacket() {
@@ -60,13 +60,20 @@ public class Server extends Thread {
             return nextPacket();
         }
 
-        public synchronized void sendPacket(String s) {
-            if (s.equals("keepalive"))
-                s = "keepalive\r";
-            outgoingPacketData.add(s);
+        public synchronized void sendPacket(int type, String s) {
+            if (PacketType.isInternalCommand(type))
+                throw new RuntimeException();
+            outgoingPacketData.add("[" + type + "]" + s);
+        }
+        private synchronized void sendInternalPacket(int type, String s) {
+            outgoingPacketData.add("[" + type + "]" + s);
         }
         public synchronized void endConnection() {
-            endFlag = true;
+            if (connectionStatus != -1) {
+                sendInternalPacket(PacketType.TERMINATE, "");
+                flush();
+                connectionStatus = -1;
+            }
         }
 
         @Override
@@ -75,17 +82,32 @@ public class Server extends Thread {
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 long lastReceivedPacket = time();
-                connectionStatus = 1;
-                while (time() - lastReceivedPacket <= 10000) {
+                out.println(String.format("[%d]", PacketType.INITIALIZE));
+                while (connectionStatus != -1) {
+                    if (in.ready()) {
+                        if (DefaultPacket.deconstructRawPacket(in.readLine()).getType() == PacketType.INITIALIZE) {
+                            connectionStatus = 1;
+                            break;
+                        }
+                    }
+                    if (time() - lastReceivedPacket > 10000) {
+                        connectionStatus = -1;
+                        break;
+                    }
+                }
+                while (time() - lastReceivedPacket <= 10000 && connectionStatus == 1) {
                     if (endFlag)
                         break;
                     if (in.ready()) {
                         String receivedData = in.readLine();
                         lastReceivedPacket = time();
-                        if (receivedData.equals("keepalive")) {
-                            out.println("keepalive");
-                            continue;
+                        if (DefaultPacket.deconstructRawPacket(receivedData).getType() == PacketType.KEEPALIVE) {
+                            sendInternalPacket(PacketType.KEEPALIVE, "");
                         }
+                        else if (DefaultPacket.deconstructRawPacket(receivedData).getType() == PacketType.TERMINATE) {
+                            connectionStatus = -1;
+                        }
+                        else
                         incomingPacketData.add(receivedData);
                     }
                     if (outgoingPacketData.size() > 0) {
@@ -189,13 +211,13 @@ public class Server extends Thread {
             List<DefaultPacket> packets = server.getUnprocessedPackets();
             while (packets.size() > 0) {
                 Packet p = packets.remove(0);
-                Connection c = server.getConnection(p.getConnectionID());
+                Connection c = p.getConnection();
                 if (p.getData().equals("CHEAT-CODE12345CRASH")) {
                     running = false;
                     break;
                 }
-                System.out.println("<Server(" + server.activeConnections() + " Active Connection(s))> ID: " + p.getConnectionID() + ": " + p.getData());
-                c.sendPacket("Received data [" + p.getData() + "]");
+                System.out.println("<Server(" + server.activeConnections() + " Active Connection(s))> ID: " + p.getConnection() + ": " + p.getData());
+                c.sendPacket(PacketType.NULLTYPE, "Received data [" + p.getData() + "]");
             }
             for (Connection c: server.getNewConnections()) {
                 System.out.println("New Connection: " + c.getConnectionID());

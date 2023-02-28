@@ -4,10 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="227d7ecc-d266-4b73-a72b-fa23e355ff83" name="Changes" comment="Javadocs">
+    <list default="true" id="227d7ecc-d266-4b73-a72b-fa23e355ff83" name="Changes" comment="Interface Javadocs">
+      <change afterPath="$PROJECT_DIR$/src/EmNet/PacketType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/BasicNetwork/EmNet/Client.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/BasicNetwork/EmNet/Client.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/BasicNetwork/EmNet/Connection.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/BasicNetwork/EmNet/Connection.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/BasicNetwork/EmNet/DefaultPacket.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/BasicNetwork/EmNet/DefaultPacket.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/BasicNetwork/EmNet/Packet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/BasicNetwork/EmNet/Packet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/BasicNetwork/EmNet/Server$ClientConnection.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/BasicNetwork/EmNet/Server$ClientConnection.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/BasicNetwork/EmNet/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/BasicNetwork/EmNet/Server.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EmNet/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EmNet/Client.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/EmNet/Connection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EmNet/Connection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EmNet/DefaultPacket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EmNet/DefaultPacket.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/EmNet/Packet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EmNet/Packet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EmNet/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EmNet/Server.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,6 +29,7 @@
       <list>
         <option value="Class" />
         <option value="Interface" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -70,7 +81,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Run Server">
+  <component name="RunManager" selected="Application.Run Client">
     <configuration name="Run Client" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="EmNet.Client" />
       <module name="BasicNetwork" />
@@ -112,7 +123,7 @@
       <workItem from="1677547173537" duration="110000" />
       <workItem from="1677547820655" duration="673000" />
       <workItem from="1677562988047" duration="133000" />
-      <workItem from="1677563167334" duration="9177000" />
+      <workItem from="1677563167334" duration="16392000" />
     </task>
     <task id="LOCAL-00001" summary="V1 EmNet">
       <created>1677607539358</created>
@@ -142,7 +153,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677608652610</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Interface Javadocs">
+      <created>1677611363869</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1677611363869</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -174,7 +192,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="V1 EmNet" />
     <MESSAGE value="Javadocs" />
-    <option name="LAST_COMMIT_MESSAGE" value="Javadocs" />
+    <MESSAGE value="Interface Javadocs" />
+    <option name="LAST_COMMIT_MESSAGE" value="Interface Javadocs" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

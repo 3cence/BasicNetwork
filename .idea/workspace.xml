@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="227d7ecc-d266-4b73-a72b-fa23e355ff83" name="Changes" comment="Javadocs" />
+    <list default="true" id="227d7ecc-d266-4b73-a72b-fa23e355ff83" name="Changes" comment="Javadocs">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EmNet/Connection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EmNet/Connection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EmNet/Packet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EmNet/Packet.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -24,11 +28,11 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;
   }
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
@@ -108,7 +112,7 @@
       <workItem from="1677547173537" duration="110000" />
       <workItem from="1677547820655" duration="673000" />
       <workItem from="1677562988047" duration="133000" />
-      <workItem from="1677563167334" duration="7513000" />
+      <workItem from="1677563167334" duration="9177000" />
     </task>
     <task id="LOCAL-00001" summary="V1 EmNet">
       <created>1677607539358</created>
@@ -131,11 +135,41 @@
       <option name="project" value="LOCAL" />
       <updated>1677608584660</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Javadocs">
+      <created>1677608652610</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1677608652610</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="V1 EmNet" />

@@ -7,6 +7,7 @@ public interface Packet {
     /**
      * Gets the ID of the connection that sent the packet.
      * For use on Servers
+     * TODO: Change to give reference to object
      * @return Connection ID
      */
     long getConnectionID();

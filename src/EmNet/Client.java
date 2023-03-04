@@ -19,6 +19,7 @@ public class Client extends Thread implements Connection {
     public Client(String ip, int port) {
         this.ip = ip;
         this.port = port;
+        onConnectionEnd = e->{};
         incomingPackets = Collections.synchronizedList(new LinkedList<>());
         outgoingPackets = Collections.synchronizedList(new LinkedList<>());
     }
@@ -64,6 +65,8 @@ public class Client extends Thread implements Connection {
         }
     }
     public synchronized void onConnectionEnd(Event<Connection> e) {
+        if (e == null)
+            throw new RuntimeException("Cant have null event");
         onConnectionEnd = e;
     }
 

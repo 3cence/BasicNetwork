@@ -19,6 +19,7 @@ public class Server extends Thread {
         public ClientConnection(Socket s, long connectionID) {
             socket = s;
             this.connectionID = connectionID;
+            onConnectionEnd = e->{};
             incomingPacketData = Collections.synchronizedList(new LinkedList<>());
             outgoingPacketData = Collections.synchronizedList(new LinkedList<>());
         }
@@ -80,6 +81,8 @@ public class Server extends Thread {
             }
         }
         public void onConnectionEnd(Event<Connection> e) {
+            if (e == null)
+                throw new RuntimeException("Cant have null event");
             onConnectionEnd = e;
         }
 

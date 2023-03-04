@@ -49,6 +49,9 @@ public class Client extends Thread implements Connection {
             throw new RuntimeException("Tried to sent internal only");
         outgoingPackets.add("[" + type + "]" + s);
     }
+    public synchronized void sendPacket(String s) {
+        sendPacket(PacketType.NULLTYPE, s);
+    }
     private synchronized void sendInternalPacket(int type, String s) {
         outgoingPackets.add("[" + type + "]" + s);
     }

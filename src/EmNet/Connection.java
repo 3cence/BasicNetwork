@@ -36,10 +36,16 @@ public interface Connection {
     boolean hasNextPacket();
 
     /**
-     * Send packet data TODO:: WILL BE CHANGED
+     * Send packet data
      * @param s data
      */
     void sendPacket(int type, String s);
+
+    /**
+     * Send packet data
+     * @param s data
+     */
+    void sendPacket(String s);
 
     /**
      * End the connection thread cleanly

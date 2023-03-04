@@ -65,6 +65,9 @@ public class Server extends Thread {
                 throw new RuntimeException();
             outgoingPacketData.add("[" + type + "]" + s);
         }
+        public synchronized void sendPacket(String s) {
+            sendPacket(PacketType.NULLTYPE, s);
+        }
         private synchronized void sendInternalPacket(int type, String s) {
             outgoingPacketData.add("[" + type + "]" + s);
         }

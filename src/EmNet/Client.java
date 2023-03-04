@@ -14,6 +14,7 @@ public class Client extends Thread implements Connection {
     private final int port;
     private final List<String> incomingPackets, outgoingPackets;
     private volatile int connectionStatus = 0;
+    private volatile Event<Connection> onConnectionEnd;
     private volatile boolean endFlag = false;
     public Client(String ip, int port) {
         this.ip = ip;
@@ -27,7 +28,7 @@ public class Client extends Thread implements Connection {
     public synchronized void flush() {
         while (hasNextPacket()) {}
     }
-    public synchronized DefaultPacket nextPacket() {
+    public synchronized DefaultPacket getNextPacket() {
         String packet = incomingPackets.get(0);
         incomingPackets.remove(0);
         return new DefaultPacket(this, packet);
@@ -37,9 +38,9 @@ public class Client extends Thread implements Connection {
         return new DefaultPacket(this, packet);
     }
     @Override
-    public synchronized DefaultPacket getNextPacket() {
+    public synchronized DefaultPacket nextPacket() {
         while (!hasNextPacket()) {}
-        return nextPacket();
+        return getNextPacket();
     }
     public synchronized boolean hasNextPacket() {
         return incomingPackets.size() > 0;
@@ -61,6 +62,9 @@ public class Client extends Thread implements Connection {
             flush();
             connectionStatus = -1;
         }
+    }
+    public synchronized void onConnectionEnd(Event<Connection> e) {
+        onConnectionEnd = e;
     }
 
     @Override
@@ -123,6 +127,7 @@ public class Client extends Thread implements Connection {
 //            throw new RuntimeException(ignored);
         }
         connectionStatus = -1;
+        onConnectionEnd.trigger(this);
     }
     public static void main(String[] args) {
         try {
@@ -137,7 +142,7 @@ public class Client extends Thread implements Connection {
 
             while (true) {
                 if (client.hasNextPacket()) {
-                    Packet s = client.nextPacket();
+                    Packet s = client.getNextPacket();
                     System.out.println(s.getData());
                 }
                 if (scanner.ready()) {

@@ -14,6 +14,7 @@ public class Server extends Thread {
         private final long connectionID;
         private int connectionStatus = 0;
         private final List<String> incomingPacketData, outgoingPacketData;
+        private volatile Event<Connection> onConnectionEnd;
         private volatile boolean endFlag = false;
         public ClientConnection(Socket s, long connectionID) {
             socket = s;
@@ -34,7 +35,7 @@ public class Server extends Thread {
         public synchronized void flush() {
             while (hasNextPacket()) {}
         }
-        public synchronized DefaultPacket nextPacket() {
+        public synchronized DefaultPacket getNextPacket() {
             if (!hasNextPacket())
                 return null;
             String packet = incomingPacketData.get(0);
@@ -55,9 +56,9 @@ public class Server extends Thread {
         }
 
         @Override
-        public synchronized DefaultPacket getNextPacket() {
+        public synchronized DefaultPacket nextPacket() {
             while (!hasNextPacket()) {}
-            return nextPacket();
+            return getNextPacket();
         }
 
         public synchronized void sendPacket(int type, String s) {
@@ -77,6 +78,9 @@ public class Server extends Thread {
                 flush();
                 connectionStatus = -1;
             }
+        }
+        public void onConnectionEnd(Event<Connection> e) {
+            onConnectionEnd = e;
         }
 
         @Override
@@ -119,14 +123,12 @@ public class Server extends Thread {
                 }
             } catch (IOException ignored) { }
             activeConnections.remove(this);
-            if (connectionEndEvent != null)
-                connectionEndEvent.trigger(this);
             connectionStatus = -1;
+            onConnectionEnd.trigger(this);
         }
     }
 
     private final List<ClientConnection> activeConnections, newConnections;
-    private Event<Connection> connectionEndEvent;
     private final int port;
     private volatile boolean endFlag = false;
 
@@ -134,10 +136,6 @@ public class Server extends Thread {
         this.port = port;
         activeConnections = Collections.synchronizedList(new ArrayList<>());
         newConnections = Collections.synchronizedList(new ArrayList<>());
-    }
-
-    public void onConnectionEnd(Event<Connection> e) {
-        connectionEndEvent = e;
     }
     public synchronized boolean hasConnections() {
         return activeConnections.size() > 0;
@@ -174,7 +172,7 @@ public class Server extends Thread {
         ArrayList<DefaultPacket> p = new ArrayList<>(activeConnections.size());
         for (Connection c: activeConnections) {
             while (c.hasNextPacket()) {
-                p.add(c.nextPacket());
+                p.add(c.getNextPacket());
             }
         }
         return p;
@@ -207,7 +205,6 @@ public class Server extends Thread {
 
     public static void main(String[] args) {
         Server server = new Server(25567);
-        server.onConnectionEnd(connection -> System.out.println("Connection Ended: " + connection.getConnectionID()));
         server.start();
         boolean running = true;
         while (running) {

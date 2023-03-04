@@ -5,12 +5,12 @@ public interface Connection {
      * Returns the next packet, null if empty
      * @return Next Packet
      */
-    DefaultPacket nextPacket();
+    DefaultPacket getNextPacket();
     /**
-     * Blocks until has next packet, unlike nextPacket()
+     * Blocks until has next packet, unlike getNextPacket()
      * @return the next packet
      */
-    DefaultPacket getNextPacket();
+    DefaultPacket nextPacket();
 
     /**
      * Returns the next packet, does not remove it;
@@ -49,9 +49,14 @@ public interface Connection {
 
     /**
      * End the connection thread cleanly
-     * TODO: its not clean yet lol
      */
     void endConnection();
+
+    /**
+     * Set an event to be triggered upon the connection closing
+     * @param e Event object w/method
+     */
+    void onConnectionEnd(Event<Connection> e);
 
     /**
      * Returns connection ID

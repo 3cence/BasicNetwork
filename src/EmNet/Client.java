@@ -15,6 +15,8 @@ public class Client extends Thread implements Connection {
     private final List<String> incomingPackets, outgoingPackets;
     private volatile int connectionStatus = 0;
     private volatile Event<Connection> onConnectionEnd;
+    private volatile Event<Packet> onReceiveNewPacket;
+    private volatile boolean keepPackets = false;
     private volatile boolean endFlag = false;
     public Client(String ip, int port) {
         this.ip = ip;
@@ -63,6 +65,25 @@ public class Client extends Thread implements Connection {
             flush();
             connectionStatus = -1;
         }
+    }
+
+    /**
+     * trigger an event when you get a new packet
+     * @param e event to trigger
+     * @param clearPackets keep new packets after event trigger?
+     */
+    public synchronized void onReceiveNewPacket(Event<Packet> e, boolean clearPackets) {
+        if (e == null)
+            throw new RuntimeException("Cant have null event");
+        onReceiveNewPacket = e;
+        keepPackets = clearPackets;
+    }
+    /**
+     * trigger an event when you get a new packet. clears packets out of queue when set
+     * @param e event to trigger
+     */
+    public synchronized void onReceiveNewPacket(Event<Packet> e) {
+        onReceiveNewPacket(e, false);
     }
     public synchronized void onConnectionEnd(Event<Connection> e) {
         if (e == null)
@@ -123,6 +144,11 @@ public class Client extends Thread implements Connection {
                     }
                     if (outgoingPackets.size() > 0) {
                         out.println(outgoingPackets.remove(0));
+                    }
+                    if (incomingPackets.size() > 0 && onReceiveNewPacket != null) {
+                        onReceiveNewPacket.trigger(peekNextPacket());
+                        if (!keepPackets)
+                            getNextPacket();
                     }
                 }
             }

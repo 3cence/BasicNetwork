@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="227d7ecc-d266-4b73-a72b-fa23e355ff83" name="Changes" comment="onConnectionEnd now per connection &amp; swapped getNextPacket/nextPacket">
+    <list default="true" id="227d7ecc-d266-4b73-a72b-fa23e355ff83" name="Changes" comment="onConnectionEnd cant be null">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EmNet/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EmNet/Client.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,7 +119,7 @@
       <workItem from="1677820680950" duration="124000" />
       <workItem from="1677904834220" duration="93000" />
       <workItem from="1677905398424" duration="45000" />
-      <workItem from="1677905559041" duration="3428000" />
+      <workItem from="1677905559041" duration="4832000" />
     </task>
     <task id="LOCAL-00001" summary="V1 EmNet">
       <created>1677607539358</created>
@@ -183,7 +184,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677953797919</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="onConnectionEnd cant be null">
+      <created>1677953997110</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1677953997110</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -220,7 +228,8 @@
     <MESSAGE value="Overloaded sendpacket defaults to nulltype" />
     <MESSAGE value="Forgot to change some things" />
     <MESSAGE value="onConnectionEnd now per connection &amp; swapped getNextPacket/nextPacket" />
-    <option name="LAST_COMMIT_MESSAGE" value="onConnectionEnd now per connection &amp; swapped getNextPacket/nextPacket" />
+    <MESSAGE value="onConnectionEnd cant be null" />
+    <option name="LAST_COMMIT_MESSAGE" value="onConnectionEnd cant be null" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -104,6 +104,7 @@ public class Server extends Thread {
                         connectionStatus = -1;
                         break;
                     }
+                    sleep(100);
                 }
                 while (time() - lastReceivedPacket <= 10000 && connectionStatus == 1) {
                     if (endFlag)
@@ -123,8 +124,9 @@ public class Server extends Thread {
                     if (outgoingPacketData.size() > 0) {
                         out.println(outgoingPacketData.remove(0));
                     }
+                    sleep(100);
                 }
-            } catch (IOException ignored) { }
+            } catch (IOException | InterruptedException ignored) { }
             activeConnections.remove(this);
             connectionStatus = -1;
             onConnectionEnd.trigger(this);
@@ -198,8 +200,9 @@ public class Server extends Thread {
                     newConnections.add(newClient);
                     newClient.start();
                     connectionIDs++;
+                    sleep(100);
                 }
-            }
+            } catch (InterruptedException ignored) { }
         } catch (IOException ignored) {}
         for (Connection c: activeConnections) {
             c.endConnection();
@@ -225,6 +228,9 @@ public class Server extends Thread {
             for (Connection c: server.getNewConnections()) {
                 System.out.println("New Connection: " + c.getConnectionID());
             }
+            try {
+                sleep(100);
+            } catch (InterruptedException ignored) { }
         }
         server.stopServer();
     }

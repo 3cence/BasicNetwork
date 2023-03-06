@@ -123,6 +123,7 @@ public class Client extends Thread implements Connection {
                         connectionStatus = -1;
                         break;
                     }
+                    sleep(100);
                 }
                 while (connectionStatus == 1) {
                     if (time() - timeReceiveKeepalive > 10000)
@@ -150,6 +151,7 @@ public class Client extends Thread implements Connection {
                         if (!keepPackets)
                             getNextPacket();
                     }
+                    sleep(100);
                 }
             }
         } catch (Exception ignored) {
@@ -170,6 +172,7 @@ public class Client extends Thread implements Connection {
             client.start();
 
             while (true) {
+                sleep(100);
                 if (client.hasNextPacket()) {
                     Packet s = client.getNextPacket();
                     System.out.println(s.getData());

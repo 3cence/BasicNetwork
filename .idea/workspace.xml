@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="227d7ecc-d266-4b73-a72b-fa23e355ff83" name="Changes" comment="onConnectionEnd cant be null">
+    <list default="true" id="227d7ecc-d266-4b73-a72b-fa23e355ff83" name="Changes" comment="onReceiveNewPacket">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/EmNet/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EmNet/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EmNet/Connection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EmNet/Connection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EmNet/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EmNet/Server.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +72,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Run Client">
+  <component name="RunManager" selected="Application.Run Server">
     <configuration name="Run Client" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="EmNet.Client" />
       <module name="BasicNetwork" />
@@ -119,7 +121,7 @@
       <workItem from="1677820680950" duration="124000" />
       <workItem from="1677904834220" duration="93000" />
       <workItem from="1677905398424" duration="45000" />
-      <workItem from="1677905559041" duration="4832000" />
+      <workItem from="1677905559041" duration="6614000" />
     </task>
     <task id="LOCAL-00001" summary="V1 EmNet">
       <created>1677607539358</created>
@@ -191,7 +193,21 @@
       <option name="project" value="LOCAL" />
       <updated>1677953997110</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="onReceiveNewPacket">
+      <created>1678055474938</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1678055474938</updated>
+    </task>
+    <task id="LOCAL-00012" summary="onReceiveNewPacket">
+      <created>1678058259076</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1678058259076</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -229,7 +245,8 @@
     <MESSAGE value="Forgot to change some things" />
     <MESSAGE value="onConnectionEnd now per connection &amp; swapped getNextPacket/nextPacket" />
     <MESSAGE value="onConnectionEnd cant be null" />
-    <option name="LAST_COMMIT_MESSAGE" value="onConnectionEnd cant be null" />
+    <MESSAGE value="onReceiveNewPacket" />
+    <option name="LAST_COMMIT_MESSAGE" value="onReceiveNewPacket" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

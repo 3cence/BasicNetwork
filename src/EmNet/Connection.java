@@ -48,15 +48,34 @@ public interface Connection {
     void sendPacket(String s);
 
     /**
-     * End the connection thread cleanly
+     * trigger an event when you get a new packet
+     * @param e event to trigger
+     * @param clearPackets keep new packets after event trigger?
      */
-    void endConnection();
+    //TODO: void onReceiveNewPacket(Event<Packet> e, boolean clearPackets);
+
+    /**
+     * trigger an event when you get a new packet. clears packets out of queue when set
+     * @param e event to trigger
+     */
+    //TODO: void onReceiveNewPacket(Event<Packet> e);
+
+    /**
+     * trigger an event when the connection is established
+     * @param e event
+     */
+    //TODO: void onConnectionBegin(Event<Connection> e);
 
     /**
      * Set an event to be triggered upon the connection closing
      * @param e Event object w/method
      */
     void onConnectionEnd(Event<Connection> e);
+    /**
+     * End the connection thread cleanly
+     */
+    void endConnection();
+
 
     /**
      * Returns connection ID
